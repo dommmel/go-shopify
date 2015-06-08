@@ -1,10 +1,13 @@
 package shopify
 
 import (
+  "log"
 	"bytes"
 	"fmt"
 	"io"
 	"net/http"
+	"appengine"
+	"appengine/urlfetch"
 )
 
 type API struct {
@@ -12,6 +15,7 @@ type API struct {
 	Token  string
 	Secret string
 	client *http.Client
+	Context appengine.Context
 }
 
 type errorResponse struct {
@@ -20,7 +24,7 @@ type errorResponse struct {
 
 func (api *API) request(endpoint string, method string, params map[string]interface{}, body io.Reader) (result *bytes.Buffer, status int, err error) {
 	if api.client == nil {
-		api.client = &http.Client{}
+		api.client = urlfetch.Client(api.Context)
 	}
 
 	uri := fmt.Sprintf("%s/%s", api.URI, endpoint)
@@ -28,9 +32,8 @@ func (api *API) request(endpoint string, method string, params map[string]interf
 	if err != nil {
 		return
 	}
-
-	req.SetBasicAuth(api.Token, api.Secret)
-	req.Header.Add("Content-Type", "application/json")
+	log.Printf(api.Token)
+	req.Header.Add("X-Shopify-Access-Token", api.Token)
 
 	resp, err := api.client.Do(req)
 	fmt.Printf("resp %v err %v", resp, err)

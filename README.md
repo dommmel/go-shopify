@@ -1,3 +1,5 @@
+This is a fork of "github.com/boourns/go_shopify" with some quick adjustment to make it work with Google App Engine 
+
 go_shopify
 ==========
 
