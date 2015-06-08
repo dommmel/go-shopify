@@ -34,6 +34,7 @@ func (api *API) request(endpoint string, method string, params map[string]interf
 	}
 	log.Printf(api.Token)
 	req.Header.Add("X-Shopify-Access-Token", api.Token)
+  req.Header.Add("Content-Type", "application/json")
 
 	resp, err := api.client.Do(req)
 	fmt.Printf("resp %v err %v", resp, err)

@@ -16,25 +16,25 @@ import (
 
 type Metafield struct {
   
-    CreatedAt time.Time `json:"created_at"`
+    CreatedAt time.Time `json:"created_at,omitempty"`
   
-    Description string `json:"description"`
+    Description string `json:"description,omitempty"`
   
-    Id int64 `json:"id"`
+    Id int64 `json:"id,omitempty"`
   
     Key string `json:"key"`
   
-    Namespace string `json:"namespace"`
+    Namespace string `json:"namespace,omitempty"`
   
-    OwnerId int64 `json:"owner_id"`
+    OwnerId int64 `json:"owner_id,omitempty"`
   
-    UpdatedAt time.Time `json:"updated_at"`
+    UpdatedAt time.Time `json:"updated_at,omitempty"`
   
     Value string `json:"value"`
   
     ValueType string `json:"value_type"`
   
-    OwnerResource string `json:"owner_resource"`
+    OwnerResource string `json:"owner_resource,omitempty"`
   
 
   
