@@ -8,8 +8,9 @@ import (
     "encoding/json"
   
     "fmt"
-  
+    "log"
     "time"
+    "net/url"
   
 )
 
@@ -43,8 +44,9 @@ type Metafield struct {
 }
 
 
-func (api *API) Metafields() ([]Metafield, error) {
-  res, status, err := api.request("/admin/metafields.json", "GET", nil, nil)
+func (api *API) Metafields(params ...url.Values) ([]Metafield, error) {
+  endpoint := fmt.Sprintf("/admin/metafields.json?%s", params[0].Encode())
+  res, status, err := api.request(endpoint, "GET", nil, nil)
 
   if err != nil {
     return nil, err
@@ -57,7 +59,7 @@ func (api *API) Metafields() ([]Metafield, error) {
   r := &map[string][]Metafield{}
   err = json.NewDecoder(res).Decode(r)
 
-  fmt.Printf("things are: %v\n\n", *r)
+  log.Printf("things are: %v\n\n", *r)
 
   result := (*r)["metafields"]
 
