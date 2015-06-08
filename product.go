@@ -40,11 +40,11 @@ type Product struct {
   
     Tags string `json:"tags"`
   
-    // Variants []Variant `json:"variants"`
+    Variants []Variant `json:"variants"`
   
-    // Options []Option `json:"options"`
+    Options []Option `json:"options"`
   
-    // Images []interface{} `json:"images"`
+    Images []interface{} `json:"images"`
   
 
   

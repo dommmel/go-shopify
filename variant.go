@@ -52,7 +52,7 @@ type Variant struct {
   
     OldInventoryQuantity int64 `json:"old_inventory_quantity"`
   
-    ImageId string `json:"image_id"`
+    ImageId int64 `json:"image_id"`
   
 
   
