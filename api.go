@@ -1,7 +1,6 @@
 package shopify
 
 import (
-  "log"
 	"bytes"
 	"fmt"
 	"io"
@@ -32,12 +31,12 @@ func (api *API) request(endpoint string, method string, params map[string]interf
 	if err != nil {
 		return
 	}
-	log.Printf("REQUEST:---" + endpoint + " " + api.Token)
+	api.Context.Infof("REQUEST:---" + endpoint + " " + api.Token)
 	req.Header.Add("X-Shopify-Access-Token", api.Token)
   req.Header.Add("Content-Type", "application/json")
 
 	resp, err := api.client.Do(req)
-	log.Printf("RESPONSE---- %v ERROR: %v", resp, err)
+	api.Context.Infof("RESPONSE---- %v ERROR: %v", resp, err)
 	if err != nil {
 		return
 	}

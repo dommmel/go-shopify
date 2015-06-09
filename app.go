@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"net/url"
 	"sort"
+	"appengine/urlfetch"
 )
 
 type App struct {
@@ -112,8 +113,7 @@ func (s *App) AccessToken(shop string, code string) (string, error) {
 	}
 	req.Header.Set("Content-Type", "application/json")
 
-	transport := &http.Transport{}
-	response, err := transport.RoundTrip(req)
+	response, err := api.client.Do(req)
 	if err != nil {
 		return "", err
 	}
