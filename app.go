@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"net/url"
 	"sort"
+	"appengine"
 	"appengine/urlfetch"
 )
 
@@ -92,7 +93,7 @@ func (s *App) signatureString(u *url.URL, prependSig bool) string {
 	return input
 }
 
-func (s *App) AccessToken(shop string, code string) (string, error) {
+func (s *App) AccessToken(context appengine.Context, shop string, code string) (string, error) {
 	url := fmt.Sprintf("https://%s/admin/oauth/access_token.json", shop)
 
 	data := map[string]string{
@@ -112,8 +113,8 @@ func (s *App) AccessToken(shop string, code string) (string, error) {
 		return "", err
 	}
 	req.Header.Set("Content-Type", "application/json")
-
-	response, err := api.client.Do(req)
+	client := urlfetch.Client(context)
+	response, err := client.Do(req)
 	if err != nil {
 		return "", err
 	}
