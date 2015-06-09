@@ -32,12 +32,12 @@ func (api *API) request(endpoint string, method string, params map[string]interf
 	if err != nil {
 		return
 	}
-	log.Printf(api.Token)
+	log.Printf("REQUEST:---" + endpoint + " " + api.Token)
 	req.Header.Add("X-Shopify-Access-Token", api.Token)
   req.Header.Add("Content-Type", "application/json")
 
 	resp, err := api.client.Do(req)
-	fmt.Printf("resp %v err %v", resp, err)
+	log.Printf("RESPONSE---- %v ERROR: %v", resp, err)
 	if err != nil {
 		return
 	}
