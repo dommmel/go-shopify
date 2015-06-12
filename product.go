@@ -10,6 +10,8 @@ import (
     "fmt"
   
     "time"
+
+    "net/url"
   
 )
 
@@ -53,8 +55,10 @@ type Product struct {
 }
 
 
-func (api *API) Products() ([]Product, error) {
-  res, status, err := api.request("/admin/products.json", "GET", nil, nil)
+func (api *API) Products(params ...url.Values) ([]Product, error) {
+  endpoint := fmt.Sprintf("/admin/products.json?%s", params[0].Encode())
+  fmt.Printf("ENDPOINT-------------: %s", endpoint)
+  res, status, err := api.request(endpoint, "GET", nil, nil)
 
   if err != nil {
     return nil, err
