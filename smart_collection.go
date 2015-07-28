@@ -46,7 +46,7 @@ type SmartCollection struct {
 
 
 func (api *API) SmartCollections() ([]SmartCollection, error) {
-  res, status, err := api.request("/admin/smart_collections.json", "GET", nil, nil)
+  res, status, err := api.request("/admin/smart_collections.json?limit=250", "GET", nil, nil)
 
   if err != nil {
     return nil, err

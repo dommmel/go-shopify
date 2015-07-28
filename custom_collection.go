@@ -42,7 +42,7 @@ type CustomCollection struct {
 
 
 func (api *API) CustomCollections() ([]CustomCollection, error) {
-  res, status, err := api.request("/admin/custom_collections.json", "GET", nil, nil)
+  res, status, err := api.request("/admin/custom_collections.json?limit=250", "GET", nil, nil)
 
   if err != nil {
     return nil, err

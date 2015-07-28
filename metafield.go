@@ -37,8 +37,6 @@ type Metafield struct {
   
     OwnerResource string `json:"owner_resource,omitempty"`
   
-
-  
     api *API
   
 }

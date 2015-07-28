@@ -31,12 +31,12 @@ func (api *API) request(endpoint string, method string, params map[string]interf
 	if err != nil {
 		return
 	}
-	api.Context.Infof("REQUEST:---" + endpoint + " " + api.Token)
 	req.Header.Add("X-Shopify-Access-Token", api.Token)
   req.Header.Add("Content-Type", "application/json")
 
+	//api.Context.Infof("REQUEST:--- %v", req)
 	resp, err := api.client.Do(req)
-	api.Context.Infof("RESPONSE---- %v ERROR: %v", resp, err)
+	//api.Context.Infof("RESPONSE---- %v ERROR: %v", resp, err)
 	if err != nil {
 		return
 	}
