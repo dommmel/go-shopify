@@ -24,6 +24,8 @@ type RecurringApplicationCharge struct {
     ConfirmationUrl *string `json:"confirmation_url,omitempty"`
     ReturnUrl string `json:"return_url,omitempty"`
     Price string `json:"price,omitempty"`
+    CappedAmount string `json:"capped_amount,omitempty"`
+    Terms string `json:"terms,omitempty"`
     Test *bool `json:"test,omitempty"`
     Status string `json:"status,omitempty"`
     api *API
