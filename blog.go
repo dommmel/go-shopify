@@ -48,7 +48,6 @@ func (api *API) Blogs() ([]Blog, error) {
 	r := &map[string][]Blog{}
 	err = json.NewDecoder(res).Decode(r)
 
-
 	result := (*r)["blogs"]
 
 	if err != nil {
@@ -77,7 +76,6 @@ func (api *API) Blog(id int64) (*Blog, error) {
 
 	r := map[string]Blog{}
 	err = json.NewDecoder(res).Decode(&r)
-
 
 	result := r["blog"]
 
@@ -138,9 +136,7 @@ func (obj *Blog) Save() error {
 		return err
 	}
 
-
 	*obj = r["blog"]
-
 
 	return nil
 }

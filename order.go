@@ -138,7 +138,6 @@ func (api *API) Orders() ([]Order, error) {
 	r := &map[string][]Order{}
 	err = json.NewDecoder(res).Decode(r)
 
-
 	result := (*r)["orders"]
 
 	if err != nil {
@@ -167,7 +166,6 @@ func (api *API) Order(id int64) (*Order, error) {
 
 	r := map[string]Order{}
 	err = json.NewDecoder(res).Decode(&r)
-
 
 	result := r["order"]
 
@@ -228,9 +226,7 @@ func (obj *Order) Save() error {
 		return err
 	}
 
-
 	*obj = r["order"]
-
 
 	return nil
 }

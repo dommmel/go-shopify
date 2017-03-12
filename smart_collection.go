@@ -50,7 +50,6 @@ func (api *API) SmartCollections() ([]SmartCollection, error) {
 	r := &map[string][]SmartCollection{}
 	err = json.NewDecoder(res).Decode(r)
 
-
 	result := (*r)["smart_collections"]
 
 	if err != nil {
@@ -79,7 +78,6 @@ func (api *API) SmartCollection(id int64) (*SmartCollection, error) {
 
 	r := map[string]SmartCollection{}
 	err = json.NewDecoder(res).Decode(&r)
-
 
 	result := r["smart_collection"]
 
@@ -140,9 +138,7 @@ func (obj *SmartCollection) Save() error {
 		return err
 	}
 
-
 	*obj = r["smart_collection"]
-
 
 	return nil
 }

@@ -44,7 +44,6 @@ func (api *API) Themes() ([]Theme, error) {
 	r := &map[string][]Theme{}
 	err = json.NewDecoder(res).Decode(r)
 
-
 	result := (*r)["themes"]
 
 	if err != nil {
@@ -73,7 +72,6 @@ func (api *API) Theme(id int64) (*Theme, error) {
 
 	r := map[string]Theme{}
 	err = json.NewDecoder(res).Decode(&r)
-
 
 	result := r["theme"]
 
@@ -134,9 +132,7 @@ func (obj *Theme) Save() error {
 		return err
 	}
 
-
 	*obj = r["theme"]
-
 
 	return nil
 }

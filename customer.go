@@ -64,7 +64,6 @@ func (api *API) Customers() ([]Customer, error) {
 	r := &map[string][]Customer{}
 	err = json.NewDecoder(res).Decode(r)
 
-
 	result := (*r)["customers"]
 
 	if err != nil {
@@ -93,7 +92,6 @@ func (api *API) Customer(id int64) (*Customer, error) {
 
 	r := map[string]Customer{}
 	err = json.NewDecoder(res).Decode(&r)
-
 
 	result := r["customer"]
 
@@ -154,9 +152,7 @@ func (obj *Customer) Save() error {
 		return err
 	}
 
-
 	*obj = r["customer"]
-
 
 	return nil
 }

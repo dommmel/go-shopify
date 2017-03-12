@@ -96,7 +96,6 @@ func (api *API) Checkouts() ([]Checkout, error) {
 	r := &map[string][]Checkout{}
 	err = json.NewDecoder(res).Decode(r)
 
-
 	result := (*r)["checkouts"]
 
 	if err != nil {

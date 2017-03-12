@@ -54,7 +54,7 @@ func (api *API) NewUsageCharge() *UsageCharge {
 
 func (obj *UsageCharge) Save() error {
 	endpoint := fmt.Sprintf("/admin/recurring_application_charges/%d/usage_charges.json", obj.RecurringApplicationChargeId)
-	obj.api.Context.Infof("Endpoint Usage Charge: %s", endpoint)
+	//obj.api.Context.Infof("Endpoint Usage Charge: %s", endpoint)
 	method := "POST"
 	expectedStatus := 201
 
@@ -68,7 +68,7 @@ func (obj *UsageCharge) Save() error {
 		return err
 	}
 
-	obj.api.Context.Infof("REQUEST BODY: %v", buf)
+	//obj.api.Context.Infof("REQUEST BODY: %v", buf)
 
 	res, status, err := obj.api.request(endpoint, method, nil, buf)
 
@@ -86,7 +86,7 @@ func (obj *UsageCharge) Save() error {
 			return fmt.Errorf("Status %d, and error parsing body: %s", status, err)
 		}
 	}
-	obj.api.Context.Infof("RESPONSE BODY: %v", res)
+	//obj.api.Context.Infof("RESPONSE BODY: %v", res)
 	r := map[string]UsageCharge{}
 	err = json.NewDecoder(res).Decode(&r)
 
@@ -94,9 +94,7 @@ func (obj *UsageCharge) Save() error {
 		return err
 	}
 
-
 	*obj = r["usage_charge"]
-
 
 	return nil
 }

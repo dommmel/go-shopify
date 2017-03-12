@@ -48,7 +48,6 @@ func (api *API) Events() ([]Event, error) {
 	r := &map[string][]Event{}
 	err = json.NewDecoder(res).Decode(r)
 
-
 	result := (*r)["events"]
 
 	if err != nil {
@@ -77,7 +76,6 @@ func (api *API) Event(id int64) (*Event, error) {
 
 	r := map[string]Event{}
 	err = json.NewDecoder(res).Decode(&r)
-
 
 	result := r["event"]
 

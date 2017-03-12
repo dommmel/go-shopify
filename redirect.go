@@ -32,7 +32,6 @@ func (api *API) Redirects() ([]Redirect, error) {
 	r := &map[string][]Redirect{}
 	err = json.NewDecoder(res).Decode(r)
 
-
 	result := (*r)["redirects"]
 
 	if err != nil {
@@ -61,7 +60,6 @@ func (api *API) Redirect(id int64) (*Redirect, error) {
 
 	r := map[string]Redirect{}
 	err = json.NewDecoder(res).Decode(&r)
-
 
 	result := r["redirect"]
 
@@ -122,9 +120,7 @@ func (obj *Redirect) Save() error {
 		return err
 	}
 
-
 	*obj = r["redirect"]
-
 
 	return nil
 }

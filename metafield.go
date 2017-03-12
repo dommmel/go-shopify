@@ -47,7 +47,6 @@ func (api *API) Metafields(params ...url.Values) ([]Metafield, error) {
 	r := &map[string][]Metafield{}
 	err = json.NewDecoder(res).Decode(r)
 
-
 	result := (*r)["metafields"]
 
 	if err != nil {
@@ -76,7 +75,6 @@ func (api *API) Metafield(id int64) (*Metafield, error) {
 
 	r := map[string]Metafield{}
 	err = json.NewDecoder(res).Decode(&r)
-
 
 	result := r["metafield"]
 
@@ -137,9 +135,7 @@ func (obj *Metafield) Save() error {
 		return err
 	}
 
-
 	*obj = r["metafield"]
-
 
 	return nil
 }

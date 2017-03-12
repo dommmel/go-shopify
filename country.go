@@ -44,7 +44,6 @@ func (api *API) Countries() ([]Country, error) {
 	r := &map[string][]Country{}
 	err = json.NewDecoder(res).Decode(r)
 
-
 	result := (*r)["countries"]
 
 	if err != nil {
@@ -73,7 +72,6 @@ func (api *API) Country(id int64) (*Country, error) {
 
 	r := map[string]Country{}
 	err = json.NewDecoder(res).Decode(&r)
-
 
 	result := r["country"]
 
@@ -134,9 +132,7 @@ func (obj *Country) Save() error {
 		return err
 	}
 
-
 	*obj = r["country"]
-
 
 	return nil
 }

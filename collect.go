@@ -46,7 +46,6 @@ func (api *API) Collects() ([]Collect, error) {
 	r := &map[string][]Collect{}
 	err = json.NewDecoder(res).Decode(r)
 
-
 	result := (*r)["collects"]
 
 	if err != nil {
@@ -75,7 +74,6 @@ func (api *API) Collect(id int64) (*Collect, error) {
 
 	r := map[string]Collect{}
 	err = json.NewDecoder(res).Decode(&r)
-
 
 	result := r["collect"]
 

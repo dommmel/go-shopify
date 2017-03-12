@@ -52,7 +52,6 @@ func (api *API) Articles() ([]Article, error) {
 	r := &map[string][]Article{}
 	err = json.NewDecoder(res).Decode(r)
 
-
 	result := (*r)["articles"]
 
 	if err != nil {
@@ -81,7 +80,6 @@ func (api *API) Article(id int64) (*Article, error) {
 
 	r := map[string]Article{}
 	err = json.NewDecoder(res).Decode(&r)
-
 
 	result := r["article"]
 
@@ -142,9 +140,7 @@ func (obj *Article) Save() error {
 		return err
 	}
 
-
 	*obj = r["article"]
-
 
 	return nil
 }

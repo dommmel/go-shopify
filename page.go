@@ -48,7 +48,6 @@ func (api *API) Pages() ([]Page, error) {
 	r := &map[string][]Page{}
 	err = json.NewDecoder(res).Decode(r)
 
-
 	result := (*r)["pages"]
 
 	if err != nil {
@@ -77,7 +76,6 @@ func (api *API) Page(id int64) (*Page, error) {
 
 	r := map[string]Page{}
 	err = json.NewDecoder(res).Decode(&r)
-
 
 	result := r["page"]
 
@@ -138,9 +136,7 @@ func (obj *Page) Save() error {
 		return err
 	}
 
-
 	*obj = r["page"]
-
 
 	return nil
 }

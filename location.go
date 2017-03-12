@@ -58,7 +58,6 @@ func (api *API) Locations() ([]Location, error) {
 	r := &map[string][]Location{}
 	err = json.NewDecoder(res).Decode(r)
 
-
 	result := (*r)["locations"]
 
 	if err != nil {
@@ -87,7 +86,6 @@ func (api *API) Location(id int64) (*Location, error) {
 
 	r := map[string]Location{}
 	err = json.NewDecoder(res).Decode(&r)
-
 
 	result := r["location"]
 

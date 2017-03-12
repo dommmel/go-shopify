@@ -62,7 +62,6 @@ func (api *API) Products(params ...url.Values) ([]Product, error) {
 	r := &map[string][]Product{}
 	err = json.NewDecoder(res).Decode(r)
 
-
 	result := (*r)["products"]
 
 	if err != nil {
@@ -91,7 +90,6 @@ func (api *API) Product(id int64) (*Product, error) {
 
 	r := map[string]Product{}
 	err = json.NewDecoder(res).Decode(&r)
-
 
 	result := r["product"]
 
@@ -152,9 +150,7 @@ func (obj *Product) Save() error {
 		return err
 	}
 
-
 	*obj = r["product"]
-
 
 	return nil
 }

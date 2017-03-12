@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 
+	shopify "github.com/dommmel/go_shopify"
 	"github.com/gorilla/context"
 	"github.com/gorilla/sessions"
 )

@@ -46,7 +46,6 @@ func (api *API) CustomCollections() ([]CustomCollection, error) {
 	r := &map[string][]CustomCollection{}
 	err = json.NewDecoder(res).Decode(r)
 
-
 	result := (*r)["custom_collections"]
 
 	if err != nil {
@@ -75,7 +74,6 @@ func (api *API) CustomCollection(id int64) (*CustomCollection, error) {
 
 	r := map[string]CustomCollection{}
 	err = json.NewDecoder(res).Decode(&r)
-
 
 	result := r["custom_collection"]
 
@@ -136,9 +134,7 @@ func (obj *CustomCollection) Save() error {
 		return err
 	}
 
-
 	*obj = r["custom_collection"]
-
 
 	return nil
 }

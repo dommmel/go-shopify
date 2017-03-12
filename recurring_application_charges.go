@@ -73,7 +73,6 @@ func (api *API) RecurringApplicationCharge(id string) (*RecurringApplicationChar
 	r := map[string]RecurringApplicationCharge{}
 	err = json.NewDecoder(res).Decode(&r)
 
-
 	result := r["recurring_application_charge"]
 
 	if err != nil {
@@ -138,9 +137,7 @@ func (obj *RecurringApplicationCharge) Activate() error {
 		return err
 	}
 
-
 	*obj = r["recurring_application_charge"]
-
 
 	return nil
 }
@@ -192,9 +189,7 @@ func (obj *RecurringApplicationCharge) Save() error {
 		return err
 	}
 
-
 	*obj = r["recurring_application_charge"]
-
 
 	return nil
 }

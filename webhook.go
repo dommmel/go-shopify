@@ -44,7 +44,6 @@ func (api *API) Webhooks() ([]Webhook, error) {
 	r := &map[string][]Webhook{}
 	err = json.NewDecoder(res).Decode(r)
 
-
 	result := (*r)["webhooks"]
 
 	if err != nil {
@@ -73,7 +72,6 @@ func (api *API) Webhook(id int64) (*Webhook, error) {
 
 	r := map[string]Webhook{}
 	err = json.NewDecoder(res).Decode(&r)
-
 
 	result := r["webhook"]
 
@@ -134,9 +132,7 @@ func (obj *Webhook) Save() error {
 		return err
 	}
 
-
 	*obj = r["webhook"]
-
 
 	return nil
 }
