@@ -94,7 +94,7 @@ func (api *API) NewMetafield() *Metafield {
 func (obj *Metafield) Save() error {
 	endpoint := fmt.Sprintf("/admin/metafields/%d.json", obj.Id)
 	method := "PUT"
-	expectedStatus := 201
+	expectedStatus := 200
 
 	if obj.Id == 0 {
 		endpoint = fmt.Sprintf("/admin/metafields.json")

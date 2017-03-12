@@ -17,7 +17,7 @@ type CustomCollection struct {
 
 	Id int64 `json:"id"`
 
-	PublishedAt time.Time `json:"published_at.omitempty"`
+	PublishedAt *time.Time `json:"published_at"`
 
 	PublishedScope string `json:"published_scope"`
 

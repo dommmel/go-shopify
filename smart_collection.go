@@ -19,7 +19,7 @@ type SmartCollection struct {
 
 	Id int64 `json:"id"`
 
-	PublishedAt time.Time `json:"published_at"`
+	PublishedAt *time.Time `json:"published_at,omitempty"`
 
 	PublishedScope string `json:"published_scope"`
 
