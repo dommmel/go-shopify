@@ -163,8 +163,6 @@ func (obj *RecurringApplicationCharge) Save() error {
 		return err
 	}
 
-	obj.api.Context.Infof("REQUEST BODY: %v", buf)
-
 	res, status, err := obj.api.request(endpoint, method, nil, buf)
 
 	json.NewDecoder(res)

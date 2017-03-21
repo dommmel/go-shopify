@@ -3,11 +3,10 @@ package shopify
 import (
 	"bytes"
 	"fmt"
+	"golang.org/x/net/context"
+	"google.golang.org/appengine/urlfetch"
 	"io"
 	"net/http"
-
-	"appengine"
-	"appengine/urlfetch"
 )
 
 type API struct {
@@ -15,7 +14,7 @@ type API struct {
 	Token   string
 	Secret  string
 	client  *http.Client
-	Context appengine.Context
+	Context context.Context
 }
 
 type errorResponse struct {

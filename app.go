@@ -9,12 +9,11 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"golang.org/x/net/context"
+	"google.golang.org/appengine/urlfetch"
 	"net/http"
 	"net/url"
 	"sort"
-
-	"appengine"
-	"appengine/urlfetch"
 )
 
 type App struct {
@@ -94,7 +93,7 @@ func (s *App) signatureString(u *url.URL, prependSig bool) string {
 	return input
 }
 
-func (s *App) AccessToken(context appengine.Context, shop string, code string) (string, error) {
+func (s *App) AccessToken(context context.Context, shop string, code string) (string, error) {
 	url := fmt.Sprintf("https://%s/admin/oauth/access_token.json", shop)
 
 	data := map[string]string{
