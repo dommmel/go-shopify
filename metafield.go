@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"google.golang.org/appengine/log"
 	"net/url"
 	"time"
 )
@@ -33,7 +34,19 @@ type Metafield struct {
 }
 
 func (api *API) Metafields(params ...url.Values) ([]Metafield, error) {
-	endpoint := fmt.Sprintf("/admin/metafields.json?%s", params[0].Encode())
+	return api.ResourceMetafields("", params[0])
+}
+
+func (api *API) ResourceMetafields(resourceName string, params url.Values) ([]Metafield, error) {
+	if resourceName != "" {
+		resourceName = resourceName + "/"
+	}
+	encodedParams := ""
+	if params != nil {
+		encodedParams = params.Encode()
+	}
+	endpoint := fmt.Sprintf("/admin/%smetafields.json?%s", resourceName, encodedParams)
+	log.Errorf(api.Context, endpoint)
 	res, status, err := api.request(endpoint, "GET", nil, nil)
 
 	if err != nil {
