@@ -4,8 +4,8 @@ import (
 	"bytes"
 
 	"encoding/json"
-
 	"fmt"
+	"net/url"
 
 	"time"
 )
@@ -32,8 +32,17 @@ type CustomCollection struct {
 	api *API
 }
 
-func (api *API) CustomCollections() ([]CustomCollection, error) {
-	res, status, err := api.request("/admin/custom_collections.json?limit=250", "GET", nil, nil)
+func (api *API) CustomCollections(params ...url.Values) ([]CustomCollection, error) {
+	if params == nil {
+		p := url.Values{}
+		p.Set("limit", "250")
+		params = append(params, p)
+
+	} else if params[0].Get("limit") == "" {
+		params[0].Set("limit", "250")
+	}
+	endpoint := fmt.Sprintf("/admin/custom_collections.json?%s", params[0].Encode())
+	res, status, err := api.request(endpoint, "GET", nil, nil)
 
 	if err != nil {
 		return nil, err

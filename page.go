@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 
 	"fmt"
-
+	"net/url"
 	"time"
 )
 
@@ -34,8 +34,9 @@ type Page struct {
 	api *API
 }
 
-func (api *API) Pages() ([]Page, error) {
-	res, status, err := api.request("/admin/pages.json", "GET", nil, nil)
+func (api *API) Pages(params ...url.Values) ([]Page, error) {
+	endpoint := fmt.Sprintf("/admin/pages.json?%s", params[0].Encode())
+	res, status, err := api.request(endpoint, "GET", nil, nil)
 
 	if err != nil {
 		return nil, err

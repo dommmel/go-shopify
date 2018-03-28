@@ -17,8 +17,8 @@ type Theme struct {
 
 	Name string `json:"name"`
 
-	Role string `json:"role"`
-
+	Role         string `json:"role"`
+	Src          string `json:"src"`
 	ThemeStoreId string `json:"theme_store_id"`
 
 	UpdatedAt time.Time `json:"updated_at"`

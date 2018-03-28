@@ -12,6 +12,7 @@ import (
 
 type Article struct {
 	Author string `json:"author"`
+	Handle string `json:"handle"`
 
 	BlogId int64 `json:"blog_id"`
 

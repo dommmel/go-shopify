@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"google.golang.org/appengine/log"
+	// "google.golang.org/appengine/log"
 	"net/url"
 	"time"
 )
@@ -46,7 +46,6 @@ func (api *API) ResourceMetafields(resourceName string, params url.Values) ([]Me
 		encodedParams = params.Encode()
 	}
 	endpoint := fmt.Sprintf("/admin/%smetafields.json?%s", resourceName, encodedParams)
-	log.Errorf(api.Context, endpoint)
 	res, status, err := api.request(endpoint, "GET", nil, nil)
 
 	if err != nil {
@@ -104,10 +103,45 @@ func (api *API) NewMetafield() *Metafield {
 	return &Metafield{api: api}
 }
 
+func (obj *Metafield) SaveToObject(objectTypeName string, objectId string) error {
+	endpoint := fmt.Sprintf("/admin/%s/%s/metafields.json", objectTypeName, objectId)
+	obj.Id = 1 // super ulgy - please refactor this shitty lib
+	return obj.SaveGeneric(endpoint)
+}
+
 func (obj *Metafield) Save() error {
 	endpoint := fmt.Sprintf("/admin/metafields/%d.json", obj.Id)
-	method := "PUT"
+	return obj.SaveGeneric(endpoint)
+}
+
+func (obj *Metafield) Delete() error {
+	method := "DELETE"
 	expectedStatus := 200
+
+	endpoint := fmt.Sprintf("/admin/metafields/%d.json", obj.Id)
+
+	res, status, err := obj.api.request(endpoint, method, nil, nil)
+
+	if err != nil {
+		return err
+	}
+
+	if status != expectedStatus {
+		r := errorResponse{}
+		err = json.NewDecoder(res).Decode(&r)
+		if err == nil {
+			return fmt.Errorf("Status %d: %v", status, r.Errors)
+		} else {
+			return fmt.Errorf("Status %d, and error parsing body: %s", status, err)
+		}
+	}
+	return nil
+
+}
+
+func (obj *Metafield) SaveGeneric(endpoint string) error {
+	method := "POST"
+	expectedStatus := 201
 
 	if obj.Id == 0 {
 		endpoint = fmt.Sprintf("/admin/metafields.json")
