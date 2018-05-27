@@ -12,11 +12,13 @@ import (
 	"net/http"
 	"net/url"
 	"sort"
+
 	"appengine"
 	"appengine/urlfetch"
 )
 
 type App struct {
+	AppId           string
 	APIKey          string
 	APISecret       string
 	RedirectURI     string
