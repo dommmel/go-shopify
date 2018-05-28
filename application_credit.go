@@ -7,10 +7,10 @@ import (
 )
 
 type ApplicationCredit struct {
-	Id          int64  `json:"id,omitempty"`
-	Description string `json:"description,omitempty"`
-	Amount      string `json:"amount,omitempty"`
-	Test        *bool  `json:"test,omitempty"`
+	Id          int64   `json:"id,omitempty"`
+	Description string  `json:"description,omitempty"`
+	Amount      float64 `json:"amount,string,omitempty"`
+	Test        *bool   `json:"test,omitempty"`
 	api         *API
 }
 
