@@ -107,7 +107,9 @@ func (obj *ApplicationCredit) Save() error {
 		r := errorResponse{}
 		err = json.NewDecoder(res).Decode(&r)
 		if err == nil {
-			return fmt.Errorf("Status %d: %v", status, r.Errors)
+			//return r.Errors
+			jsonString, _ := json.Marshal(r.Errors)
+			return fmt.Errorf(string(jsonString))
 		} else {
 			return fmt.Errorf("Status %d, and error parsing body: %s", status, err)
 		}
