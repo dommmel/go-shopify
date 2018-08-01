@@ -3,7 +3,6 @@ package shopify
 import (
 	"bytes"
 	"crypto/hmac"
-	"crypto/md5"
 	"crypto/sha256"
 	"crypto/subtle"
 	"encoding/hex"
@@ -11,7 +10,9 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"regexp"
 	"sort"
+	"strings"
 
 	"appengine"
 	"appengine/urlfetch"
@@ -25,7 +26,17 @@ type App struct {
 	IgnoreSignature bool
 }
 
-func (s *App) AuthorizeURL(shop string, scopes string) string {
+func (s *App) ValidateShopifyHostName(host string) bool {
+	host = strings.Trim(host, " ")
+
+	re, _ := regexp.Compile(`^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*(myshopify\.com)$`)
+	if re.MatchString(host) {
+		return true
+	}
+	return false
+}
+
+func (s *App) AuthorizeURL(shop string, scopes string, state string) string {
 	var u url.URL
 	u.Scheme = "https"
 	u.Host = shop
@@ -34,26 +45,50 @@ func (s *App) AuthorizeURL(shop string, scopes string) string {
 	q.Set("client_id", s.APIKey)
 	q.Set("scope", scopes)
 	q.Set("redirect_uri", s.RedirectURI)
+	q.Set("state", state)
 	u.RawQuery = q.Encode()
 
 	return u.String()
 }
 
-func (s *App) AdminSignatureOk(u *url.URL) bool {
-	if s.IgnoreSignature {
-		return true
-	}
+// Verify a message against a message HMAC
+func (s *App) VerifyMessage(message, messageMAC string) bool {
+	mac := hmac.New(sha256.New, []byte(s.APISecret))
+	mac.Write([]byte(message))
+	expectedMAC := mac.Sum(nil)
 
-	params := u.Query()
-	signature := params["signature"]
-	if signature == nil || len(signature) != 1 {
+	// shopify HMAC is in hex so it needs to be decoded
+	actualMac, _ := hex.DecodeString(messageMAC)
+
+	return hmac.Equal(actualMac, expectedMAC)
+}
+
+// Verifying URL callback parameters.
+func (s *App) VerifyAuthorizationURL(u *url.URL, nonce string) bool {
+	q := u.Query()
+	messageMAC := q.Get("hmac")
+	state := q.Get("state")
+
+	// Check nonce according to https://help.shopify.com/en/api/getting-started/authentication/oauth
+	if nonce != "" && state != nonce {
 		return false
 	}
+	// Check hostname according to to https://help.shopify.com/en/api/getting-started/authentication/oauth
+	shop := q.Get("shop")
+	if !s.ValidateShopifyHostName(shop) {
+		return false
+	}
+	// Remove hmac and signature and leave the rest of the parameters alone.
+	q.Del("hmac")
+	q.Del("signature")
 
-	raw := md5.Sum([]byte(s.signatureString(u, true)))
-	encrypted := hex.EncodeToString(raw[:])
+	message, _ := url.QueryUnescape(q.Encode())
 
-	return 1 == subtle.ConstantTimeCompare([]byte(encrypted), []byte(signature[0]))
+	return s.VerifyMessage(message, messageMAC)
+}
+
+func (s *App) AdminSignatureOk(u *url.URL, nonce string) bool {
+	return s.VerifyAuthorizationURL(u, nonce)
 }
 
 func (s *App) AppProxySignatureOk(u *url.URL) bool {
