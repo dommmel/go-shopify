@@ -2,19 +2,20 @@ package shopify
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"io"
 	"net/http"
-	"appengine"
-	"appengine/urlfetch"
+
+	"google.golang.org/appengine/urlfetch"
 )
 
 type API struct {
-	URI    string
-	Token  string
-	Secret string
-	client *http.Client
-	Context appengine.Context
+	URI     string
+	Token   string
+	Secret  string
+	client  *http.Client
+	Context context.Context
 }
 
 type errorResponse struct {
@@ -32,7 +33,7 @@ func (api *API) request(endpoint string, method string, params map[string]interf
 		return
 	}
 	req.Header.Add("X-Shopify-Access-Token", api.Token)
-  req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Content-Type", "application/json")
 
 	//api.Context.Infof("REQUEST:--- %v", req)
 	resp, err := api.client.Do(req)

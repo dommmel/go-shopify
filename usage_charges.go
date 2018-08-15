@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"time"
+
+	"google.golang.org/appengine/log"
 )
 
 type UsageCharge struct {
@@ -54,7 +56,8 @@ func (api *API) NewUsageCharge() *UsageCharge {
 
 func (obj *UsageCharge) Save() error {
 	endpoint := fmt.Sprintf("/admin/recurring_application_charges/%d/usage_charges.json", obj.RecurringApplicationChargeId)
-	obj.api.Context.Infof("Endpoint Usage Charge: %s", endpoint)
+	log.Infof(obj.api.Context, "Endpoint Usage Charge: %s", endpoint)
+
 	method := "POST"
 	expectedStatus := 201
 
@@ -67,8 +70,7 @@ func (obj *UsageCharge) Save() error {
 	if err != nil {
 		return err
 	}
-
-	obj.api.Context.Infof("REQUEST BODY: %v", buf)
+	log.Infof(obj.api.Context, "REQUEST BODY: %v", buf)
 
 	res, status, err := obj.api.request(endpoint, method, nil, buf)
 
@@ -86,7 +88,8 @@ func (obj *UsageCharge) Save() error {
 			return fmt.Errorf("Status %d, and error parsing body: %s", status, err)
 		}
 	}
-	obj.api.Context.Infof("RESPONSE BODY: %v", res)
+	log.Infof(obj.api.Context, "RESPONSE BODY: %v", res)
+
 	r := map[string]UsageCharge{}
 	err = json.NewDecoder(res).Decode(&r)
 

@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"time"
+
+	"google.golang.org/appengine/log"
 )
 
 type RecurringApplicationCharge struct {
@@ -73,7 +75,7 @@ func (api *API) RecurringApplicationCharge(id string) (*RecurringApplicationChar
 	r := map[string]RecurringApplicationCharge{}
 	err = json.NewDecoder(res).Decode(&r)
 
-	api.Context.Infof("things are: %v\n\n", r)
+	//api.Context.Infof("things are: %v\n\n", r)
 
 	result := r["recurring_application_charge"]
 
@@ -169,7 +171,7 @@ func (obj *RecurringApplicationCharge) Save() error {
 		return err
 	}
 
-	obj.api.Context.Infof("REQUEST BODY: %v", buf)
+	log.Infof(obj.api.Context, "REQUEST BODY: %v", buf)
 
 	res, status, err := obj.api.request(endpoint, method, nil, buf)
 

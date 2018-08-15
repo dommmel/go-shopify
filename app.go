@@ -2,6 +2,7 @@ package shopify
 
 import (
 	"bytes"
+	"context"
 	"crypto/hmac"
 	"crypto/sha256"
 	"crypto/subtle"
@@ -14,8 +15,7 @@ import (
 	"sort"
 	"strings"
 
-	"appengine"
-	"appengine/urlfetch"
+	"google.golang.org/appengine/urlfetch"
 )
 
 type App struct {
@@ -130,7 +130,7 @@ func (s *App) signatureString(u *url.URL, prependSig bool) string {
 	return input
 }
 
-func (s *App) AccessToken(context appengine.Context, shop string, code string) (string, error) {
+func (s *App) AccessToken(context context.Context, shop string, code string) (string, error) {
 	url := fmt.Sprintf("https://%s/admin/oauth/access_token.json", shop)
 
 	data := map[string]string{
